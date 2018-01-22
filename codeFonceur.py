@@ -17,7 +17,7 @@ class RandomStrategy(Strategy):
 	ballPositionY = state.ball.position.y
 	dist = math.hypot(ballPositionX - playerPositionX, ballPositionY - playerPositionY)
 	if(dist < PLAYER_RADIUS + BALL_RADIUS):
-        	return SoccerAction(Vector2D(angle=3.14,norm=0.035), Vector2D(angle=3.14,norm=3)
+        	return SoccerAction(Vector2D(angle=3.14,norm=0.035), Vector2D(angle=3.14,norm=3))
 	else:
 		return SoccerAction(Vector2D(ballPositionX - playerPositionX,ballPositionY - playerPositionY), Vector2D(0,0))
 
