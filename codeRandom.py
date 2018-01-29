@@ -3,6 +3,8 @@ from soccersimulator import Simulation, SoccerTeam, Player, show_simu
 from soccersimulator import Strategy
 from soccersimulator import settings
 from soccersimulator.settings import *
+from tools import *
+from strats import *
 import random
 import math
 
