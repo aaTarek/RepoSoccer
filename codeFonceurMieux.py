@@ -66,8 +66,8 @@ class Strategy2(Strategy):
 ## Creation d'une equipe
 pyteam = SoccerTeam(name="Overwatch")
 thon = SoccerTeam(name="Rainbow6")
-pyteam.add("Lucio",Strategy()) #Strategie qui ne fait rien
-thon.add("Valkyrie",RandomStrategy())   #Strategie aleatoire
+pyteam.add("Lucio",RandomStrategy()) #Strategie qui ne fait rien
+thon.add("Valkyrie",RandomStrategy2())   #Strategie aleatoire
 
 #Creation d'une partie
 simu = Simulation(pyteam,thon)

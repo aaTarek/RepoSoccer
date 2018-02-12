@@ -12,7 +12,6 @@ def vecteurShootGoal(Balle, cage_x, cage_y, puissance):
 
 def teta2Vecteurs(v1, v2):
 	teta = math.acos((v1.x*v2.x + v1.y*v2.y) / (v1.norm*v2.norm))
-	print teta
 	return teta
 
 def idTEnemy(id_Team):
