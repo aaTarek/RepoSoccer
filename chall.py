@@ -5,8 +5,8 @@ from strategies  import *
 ## Creation d'une equipe
 pyteam = SoccerTeam(name="PyTeam")
 thon = SoccerTeam(name="ThonTeam")
-pyteam.add("PyPlayer",Fonceur()) #Strategie qui ne fait rien
-thon.add("ThonPlayer",stratAttente())   #Strategie aleatoire
+pyteam.add("PyPlayer",Strategy2()) #Strategie qui ne fait rien
+thon.add("ThonPlayer",flemme())   #Strategie aleatoire
 
 #Creation d'une partie
 simu = Simulation(pyteam,thon)

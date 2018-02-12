@@ -3,9 +3,35 @@ from soccersimulator import Simulation, SoccerTeam, Player, show_simu
 from soccersimulator import Strategy
 from soccersimulator import settings
 from soccersimulator.settings import *
-from tools import *
+from .tools import *
 import random
 import math
+
+## Strategie La flemme
+class flemme(Strategy):
+	def __init__(self):
+		Strategy.__init__(self,"Random")
+	def compute_strategy(self,state,id_team,id_player):
+		idEnemy = idTEnemy(id_team)
+		playerPositionX = state.player_state(id_team, id_player).position.x
+		playerPositionY = state.player_state(id_team, id_player).position.y
+		ballPositionX = state.ball.position.x
+		ballPositionY = state.ball.position.y
+		goalX = 0
+		goalY = GAME_HEIGHT / 2
+		if (id_team == 1):
+			goalX = GAME_WIDTH
+			# distance entre le joueur et la balle
+		dist = math.hypot(ballPositionX - playerPositionX, ballPositionY - playerPositionY)
+		if(dist < PLAYER_RADIUS + BALL_RADIUS):
+				return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, goalX, GAME_HEIGHT / 2, 10))
+		elif ( playerPositionX < (GAME_WIDTH - 11) ):
+			return SoccerAction(Vector2D(GAME_WIDTH - 11 - playerPositionX,GAME_HEIGHT / 2 - playerPositionY).normalize() * (maxPlayerAcceleration / 2), Vector2D(0,0))
+		elif (state.step % 50 < 25):
+			return SoccerAction(Vector2D(0,GAME_HEIGHT / 2 + GAME_GOAL_HEIGHT / 2 - playerPositionY).normalize() * (maxPlayerAcceleration / 2), Vector2D(0,0))
+		else:
+			return SoccerAction(Vector2D(0,GAME_HEIGHT / 2 - GAME_GOAL_HEIGHT / 2 - playerPositionY).normalize() * maxPlayerAcceleration, Vector2D(0,0))
+	
 
 ## Strategie Attente puis But
 class stratAttente(Strategy):
@@ -76,4 +102,5 @@ class Strategy2(Strategy):
 			return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, GAME_WIDTH, GAME_HEIGHT / 2, 10))
 		else:
 			return SoccerAction(Vector2D(ballPositionX - playerPositionX,ballPositionY - playerPositionY).normalize() * maxPlayerAcceleration, Vector2D(0,0))
+
 

@@ -1,5 +1,4 @@
-from tools import *
-from strategies import *
+from .strategies import *
 from soccersimulator import *
 
 def get_team(nb_players):
