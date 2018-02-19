@@ -1,9 +1,6 @@
-from soccersimulator  import Strategy, SoccerAction, Vector2D
-from soccersimulator import Simulation, SoccerTeam, Player, show_simu
-from soccersimulator import Strategy
-from soccersimulator import settings
+from soccersimulator import *
 from soccersimulator.settings import *
-from .tools import *
+from tools import *
 import random
 import math
 
@@ -12,25 +9,17 @@ class flemme(Strategy):
 	def __init__(self):
 		Strategy.__init__(self,"Random")
 	def compute_strategy(self,state,id_team,id_player):
-		idEnemy = idTEnemy(id_team)
-		playerPositionX = state.player_state(id_team, id_player).position.x
-		playerPositionY = state.player_state(id_team, id_player).position.y
-		ballPositionX = state.ball.position.x
-		ballPositionY = state.ball.position.y
-		goalX = 0
-		goalY = GAME_HEIGHT / 2
-		if (id_team == 1):
-			goalX = GAME_WIDTH
-			# distance entre le joueur et la balle
-		dist = math.hypot(ballPositionX - playerPositionX, ballPositionY - playerPositionY)
-		if(dist < PLAYER_RADIUS + BALL_RADIUS):
-				return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, goalX, GAME_HEIGHT / 2, 10))
-		elif ( playerPositionX < (GAME_WIDTH - 11) ):
-			return SoccerAction(Vector2D(GAME_WIDTH - 11 - playerPositionX,GAME_HEIGHT / 2 - playerPositionY).normalize() * (maxPlayerAcceleration / 2), Vector2D(0,0))
+		f = functions(state,id_team,id_player)
+		idEnemy = f.idEnemy
+		
+		if(f.canShoot()):
+				return SoccerAction(Vector2D(angle=3.14,norm=0.2), f.tirBoulet())
+		elif ( f.playerData()[0] < (GAME_WIDTH - 11) ):
+			return SoccerAction(f.tirBoulet())
 		elif (state.step % 50 < 25):
-			return SoccerAction(Vector2D(0,GAME_HEIGHT / 2 + GAME_GOAL_HEIGHT / 2 - playerPositionY).normalize() * (maxPlayerAcceleration / 2), Vector2D(0,0))
+			return SoccerAction(Vector2D(0,f.butPosition + GAME_GOAL_HEIGHT / 2 - f.playerData()[1]).normalize() * (maxPlayerAcceleration / 2), Vector2D(0,0))
 		else:
-			return SoccerAction(Vector2D(0,GAME_HEIGHT / 2 - GAME_GOAL_HEIGHT / 2 - playerPositionY).normalize() * maxPlayerAcceleration, Vector2D(0,0))
+			return SoccerAction(Vector2D(0,f.butPosition - GAME_GOAL_HEIGHT / 2 - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
 	
 
 ## Strategie Attente puis But
@@ -38,69 +27,15 @@ class stratAttente(Strategy):
 	def __init__(self):
 		Strategy.__init__(self,"Random")
 	def compute_strategy(self,state,id_team,id_player):
-		idEnemy = idTEnemy(id_team)
-		playerPositionX = state.player_state(id_team, id_player).position.x
-		playerPositionY = state.player_state(id_team, id_player).position.y
-		ballPositionX = state.ball.position.x
-		ballPositionY = state.ball.position.y
-		goalX = 0
-		goalY = GAME_HEIGHT / 2
-		if (id_team == 1):
-			goalX = GAME_WIDTH
-			# distance entre le joueur et la balle
-		dist = math.hypot(ballPositionX - playerPositionX, ballPositionY - playerPositionY)
+		f = functions(state,id_team,id_player)
+		idEnemy = f.idEnemy
+
 		# Si la balle est au centre (engagement) on ne bouge pas
-		if (state.ball.position.x == (GAME_WIDTH / 2)) and (state.ball.position.y == (GAME_HEIGHT / 2) and state.step < 35):
+		if (state.ball.position.x == (GAME_WIDTH / 2) and state.ball.position.y == f.butPosition and state.step < 35):
 			return SoccerAction(Vector2D(0,0), Vector2D(0,0))
-		# 
-		elif(dist < PLAYER_RADIUS + BALL_RADIUS and state.ball.position.x > GAME_WIDTH / 2 and state.player_state(idEnemy, id_player).position.y > playerPositionY):
-			return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, goalX, state.player_state(id_team, id_player).position.y, 10))
-		elif(dist < PLAYER_RADIUS + BALL_RADIUS):
-			return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, goalX, GAME_HEIGHT / 2, 10))
+		elif(f.canShoot()):
+			return SoccerAction(Vector2D(angle=3.14,norm=0.2), f.tirBoulet())
 		else:
-			return SoccerAction(Vector2D(ballPositionX - playerPositionX,ballPositionY - playerPositionY).normalize() * maxPlayerAcceleration, Vector2D(0,0))
-
-
-## Strategie aleatoire
-class RandomStrategy(Strategy):
-    def __init__(self):
-        Strategy.__init__(self,"Random")
-    def compute_strategy(self,state,id_team,id_player):
-        return SoccerAction(Vector2D.create_random(),Vector2D.create_random())
-
-class Fonceur(Strategy):
-	def __init__(self):
-		Strategy.__init__(self,"Random")
-	def compute_strategy(self,state,id_team,id_player):
-		idEnemy = idTEnemy(id_team)
-		playerPositionX = state.player_state(id_team, id_player).position.x
-		playerPositionY = state.player_state(id_team, id_player).position.y
-		ballPositionX = state.ball.position.x
-		ballPositionY = state.ball.position.y
-		dist = math.hypot(ballPositionX - playerPositionX, ballPositionY - playerPositionY)
-		goalX = 0
-		goalY = GAME_HEIGHT / 2
-		if (id_team == 1):
-			goalX = GAME_WIDTH
-		if(dist < PLAYER_RADIUS + BALL_RADIUS and state.ball.position.x > GAME_WIDTH / 2):
-			return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, goalX, state.player_state(id_team, id_player).position.y, 10))
-		elif(dist < PLAYER_RADIUS + BALL_RADIUS):
-			return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, goalX, GAME_HEIGHT / 2, 4.5))
-		else:
-			return SoccerAction(Vector2D(ballPositionX - playerPositionX,ballPositionY - playerPositionY).normalize() * maxPlayerAcceleration, Vector2D(0,0))
-
-class Strategy2(Strategy):
-	def __init__(self):
-		Strategy.__init__(self,"Random")
-	def compute_strategy(self,state,id_team,id_player):
-		playerPositionX = state.player_state(id_team, id_player).position.x
-		playerPositionY = state.player_state(id_team, id_player).position.y
-		ballPositionX = state.ball.position.x
-		ballPositionY = state.ball.position.y
-		dist = math.hypot(ballPositionX - playerPositionX, ballPositionY - playerPositionY)
-		if(dist < PLAYER_RADIUS + BALL_RADIUS):
-			return SoccerAction(Vector2D(angle=3.14,norm=0.2), vecteurShootGoal(state.ball, GAME_WIDTH, GAME_HEIGHT / 2, 10))
-		else:
-			return SoccerAction(Vector2D(ballPositionX - playerPositionX,ballPositionY - playerPositionY).normalize() * maxPlayerAcceleration, Vector2D(0,0))
+			return SoccerAction(Vector2D(f.playerData()[2] - f.playerData()[0],f.playerData()[3] - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
 
 
