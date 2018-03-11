@@ -7,12 +7,12 @@ def get_team(nb_players):
 		myteam.add("Joueur " ,stratAttente())
 	if nb_players == 2:
 		myteam.add("Joueur 1", stratAttente())
-		myteam.add("Joueur 2", flemme())
+		myteam.add("Joueur 2", defense())
 	if nb_players == 4:
 		myteam.add("Joueur 1",stratAttente())
 		myteam.add("Joueur 2",flemme())
-		myteam.add("Joueur 3",RandomStrategy())
-		myteam.add("Joueur 4",RandomStrategy())
+		myteam.add("Joueur 3",defense())
+		myteam.add("Joueur 4",defense2())
 	return myteam	
 
 def get_team_challenge(num):
