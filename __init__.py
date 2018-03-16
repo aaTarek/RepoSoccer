@@ -6,12 +6,12 @@ def get_team(nb_players):
 	if nb_players == 1:
 		myteam.add("Joueur " ,stratAttente())
 	if nb_players == 2:
-		myteam.add("Joueur 1", stratAttente())
-		myteam.add("Joueur 2", defense())
+		myteam.add("Joueur 1", defense())
+		myteam.add("Joueur 2", stratAttente())
 	if nb_players == 4:
-		myteam.add("Joueur 1",stratAttente())
-		myteam.add("Joueur 2",flemme())
-		myteam.add("Joueur 3",defense())
+		myteam.add("Joueur 1",defense())
+		myteam.add("Joueur 2",stratAttente())
+		myteam.add("Joueur 3",stratAttente())
 		myteam.add("Joueur 4",defense2())
 	return myteam	
 
