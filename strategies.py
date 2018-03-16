@@ -89,7 +89,7 @@ class stratAttente(Strategy):
 				return SoccerAction(Vector2D(0,0), Vector2D(0,0))
 			elif (( f.id_team ) == 1) and (f.id_player == 2) and (state.ball.position.x <3* GAME_WIDTH / 4) and (playerDataa[0]>3*GAME_WIDTH / 4):
 				return SoccerAction(Vector2D(0,0), Vector2D(0,0))
-			elif (( f.id_team ) == 2) and (f.id_player == 2) and (state.ball.position.x > GAME_WIDTH / 4) and (playerDataa[0]>GAME_WIDTH / 4):
+			elif (( f.id_team ) == 2) and (f.id_player == 2) and (state.ball.position.x > GAME_WIDTH / 4) and (playerDataa[0]<GAME_WIDTH / 4):
 				return SoccerAction(Vector2D(0,0), Vector2D(0,0))
 			else:
 				return SoccerAction(Vector2D(f.playerData()[2] - f.playerData()[0],f.playerData()[3] - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
