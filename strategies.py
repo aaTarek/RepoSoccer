@@ -28,14 +28,14 @@ class defense(Strategy):
 	def compute_strategy(self,state,id_team,id_player):
 		f = functions(state,id_team,id_player)
 		idEnemy = f.idEnemy
-		if ( f.id_team ) == 1:
+		if ( f.id_team ) == 2:
 			if (state.ball.position.x > (GAME_WIDTH / 2) ):
 				if(f.canShoot()):
 					return SoccerAction(Vector2D(angle=3.14,norm=0.2), f.tirBoulet())
 				else:
 					return SoccerAction(Vector2D(f.playerData()[2] - f.playerData()[0],f.playerData()[3] - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
 			else:
-				return SoccerAction(Vector2D(140,45), Vector2D(0,0))
+				return SoccerAction(Vector2D(angle=3.14,norm=0.001), Vector2D(0,0))
 		else:
 			if (state.ball.position.x < (GAME_WIDTH / 2) ):
 				if(f.canShoot()):
@@ -43,7 +43,7 @@ class defense(Strategy):
 				else:
 					return SoccerAction(Vector2D(f.playerData()[2] - f.playerData()[0],f.playerData()[3] - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
 			else:
-				return SoccerAction(Vector2D(10,45), Vector2D(0,0))
+				return SoccerAction(Vector2D(angle=0,norm=0.001), Vector2D(0,0))
 
 ## Strategie defense 2
 class defense2(Strategy):
@@ -52,14 +52,14 @@ class defense2(Strategy):
 	def compute_strategy(self,state,id_team,id_player):
 		f = functions(state,id_team,id_player)
 		idEnemy = f.idEnemy
-		if ( f.id_team ) == 1:
+		if ( f.id_team ) == 2:
 			if (state.ball.position.x > (3 * GAME_WIDTH / 4) ):
 				if(f.canShoot()):
 					return SoccerAction(Vector2D(angle=3.14,norm=0.2), f.tirBoulet())
 				else:
 					return SoccerAction(Vector2D(f.playerData()[2] - f.playerData()[0],f.playerData()[3] - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
 			else:
-				return SoccerAction(Vector2D(140,45), Vector2D(0,0))
+				return SoccerAction(Vector2D(angle=0,norm=0.001), Vector2D(0,0))
 		else:
 			if (state.ball.position.x < (GAME_WIDTH / 4) ):
 				if(f.canShoot()):
@@ -67,7 +67,7 @@ class defense2(Strategy):
 				else:
 					return SoccerAction(Vector2D(f.playerData()[2] - f.playerData()[0],f.playerData()[3] - f.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
 			else:
-				return SoccerAction(Vector2D(10,45), Vector2D(0,0))
+				return SoccerAction(Vector2D(angle=0,norm=0.001), Vector2D(0,0))
 
 ## Strategie Attente puis But
 class stratAttente(Strategy):

@@ -6,11 +6,13 @@ from strategies  import *
 pyteam = SoccerTeam(name="PyTeam")
 thon = SoccerTeam(name="ThonTeam")
 
-pyteam.add("PyPlayer",stratAttente()) #Strategie qui ne fait rien
+pyteam.add("PyPlayer",defense()) #Strategie qui ne fait rien
 pyteam.add("PyPlayer2",stratAttente()) #Strategie qui ne fait rien
+pyteam.add("PyPlayer3",defense2())
 
-thon.add("ThonPlayer",flemme())   #Strategie aleatoire
-thon.add("ThonPlayer2",flemme())   #Strategie aleatoire
+thon.add("ThonPlayer",stratAttente())   #Strategie aleatoire
+thon.add("ThonPlayer2",defense())   #Strategie aleatoire
+thon.add("ThonPlayer3",defense2())
 
 #Creation d'une partie
 simu = Simulation(pyteam,thon)
