@@ -18,4 +18,4 @@ thon.add("ThonPlayer2",defense())   #Strategie aleatoire
 #Creation d'une partie
 simu = Simulation(thon,myteam)
 #Jouer et afficher la partie
-show_simu(simu)
+show_simu(simu)git add 
