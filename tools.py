@@ -50,6 +50,43 @@ class functions(object):
 	def canShoot(self):
 		return self.distBallJoueur() < PLAYER_RADIUS + BALL_RADIUS 
 
+	def ShootOuAvanceVersBalle(self):
+		if (self.canShoot()):
+			return self.TirDirect()
+		else:
+			return self.AvanceVersBalle()
+
+	def BougePas(self):
+		return SoccerAction(Vector2D(0,0), Vector2D(0,0))
+
+		
+	def AvanceVersBalle(self):
+		return SoccerAction(Vector2D(self.playerData()[2] - self.playerData()[0],self.playerData()[3] - self.playerData()[1]).normalize() * maxPlayerAcceleration, Vector2D(0,0))
+
+	def TirDirect(self):
+		return SoccerAction(Vector2D(angle=3.14,norm=0.2), self.tirBoulet())
+
+	def Ralenti(self):
+		return SoccerAction(Vector2D(angle=0,norm=0.001), Vector2D(0,0))
+	
+	def Team2(self):
+		return self.id_team == 2
+
+	def Team1(self):
+		return self.id_team == 1
+	
+	def Ballx2sup(self):
+		return self.state.ball.position.x > (GAME_WIDTH / 2) 
+
+	def Ballx2inf(self):
+		return self.state.ball.position.x < (GAME_WIDTH / 2)
+
+	def Ballx4sup(self):
+		return self.state.ball.position.x > (3*GAME_WIDTH / 4)
+
+	def Ballx4inf(self):
+		return self.state.ball.position.x < (GAME_WIDTH / 4)
+
 
 	#def obstacle(Balle, cage_x, cage_y, puissance):
 	#	tirVecteur = vecteurShootGoal(Balle, cage_x, cage_y, puissance)
