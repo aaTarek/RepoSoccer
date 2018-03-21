@@ -16,6 +16,6 @@ thon.add("ThonPlayer2",defense())   #Strategie aleatoire
 #thon.add("ThonPlayer3",defense2())
 
 #Creation d'une partie
-simu = Simulation(thon,myteam)
+simu = Simulation(myteam,thon)
 #Jouer et afficher la partie
 show_simu(simu)

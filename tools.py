@@ -88,6 +88,44 @@ class functions(object):
 		return self.state.ball.position.x < (GAME_WIDTH / 4)
 
 
+	def defense(self):
+		if self.Team2():
+			if self.Ballx2sup():
+				return self.ShootOuAvanceVersBalle()
+			else:
+				return self.Ralenti()
+		else:
+			if self.Ballx2inf():
+				return self.ShootOuAvanceVersBalle()
+			else:
+				return self.Ralenti()
+
+	def defense2(self):
+		if self.Team2():
+			if self.Ballx4sup():
+				return self.ShootOuAvanceVersBalle()
+			else:
+				return self.Ralenti()
+		else:
+			if self.Ballx4inf():
+				return self.ShootOuAvanceVersBalle()
+			else:
+				return self.Ralenti()
+	
+	def attack(self):
+		if(self.canShoot()):
+			return self.TirDirect()
+		else:
+			if self.Team2() and (self.id_player == 1) and self.Ballx2sup():
+				return self.BougePas()
+			elif self.Team1() and (self.id_player == 1) and self.Ballx2inf():
+				return self.BougePas()
+			elif self.Team1() and (self.id_player == 2) and self.Ballx4sup() and (playerDataa[0]>3*GAME_WIDTH / 4):
+				return self.BougePas()
+			elif self.Team2() and (self.id_player == 2) and self.Ballx4inf() and (playerDataa[0]<GAME_WIDTH / 4):
+				return self.BougePas()
+			else:
+				return self.AvanceVersBalle()
 	#def obstacle(Balle, cage_x, cage_y, puissance):
 	#	tirVecteur = vecteurShootGoal(Balle, cage_x, cage_y, puissance)
 	
