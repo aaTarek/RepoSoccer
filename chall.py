@@ -1,5 +1,5 @@
 from soccersimulator import SoccerTeam, Simulation, show_simu, Strategy
-from strategies  import *
+from prog.strategies import *
 
 
 ## Creation d'une equipe

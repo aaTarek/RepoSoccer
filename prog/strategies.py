@@ -1,6 +1,6 @@
 from soccersimulator import *
 from soccersimulator.settings import *
-from tools import *
+from .tools import *
 import random
 import math
 
